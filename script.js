@@ -30,11 +30,9 @@ export const render3DAlbum = (projectName) => {
 
 	const images = [];
 
-	for (
-		const [currentIndex, el] of [...document.querySelectorAll('div')]
-			.reverse()
-			.entries()
-	) {
+	for (const [currentIndex, el] of [...document.querySelectorAll('div')]
+		.reverse()
+		.entries()) {
 		const depth = Number(el.innerText);
 
 		el.style.setProperty('--image', generateImageUrl(el.id));
@@ -69,11 +67,10 @@ export const render3DAlbum = (projectName) => {
 			shadowEl.style.backgroundImage = generateImageUrl(shadow.name);
 			shadowEl.style.setProperty('--blur', `${(shadow.depth - depth) / 10}em`);
 			el.appendChild(shadowEl);
-		})
+		}),
 	);
 
-	document.addEventListener(
-		'click',
-		() => document.body.classList.toggle('disabled'),
+	document.addEventListener('click', () =>
+		document.body.classList.toggle('disabled'),
 	);
 };
