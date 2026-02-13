@@ -4,7 +4,6 @@
     "jsr:@std/cli@^1.0.6": "1.0.27",
     "jsr:@std/encoding@^1.0.5": "1.0.5",
     "jsr:@std/fmt@^1.0.2": "1.0.9",
-    "jsr:@std/http@*": "1.0.8",
     "jsr:@std/http@1": "1.0.8",
     "jsr:@std/media-types@^1.0.3": "1.0.3",
     "jsr:@std/net@^1.0.4": "1.0.6",

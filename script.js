@@ -77,5 +77,3 @@ export const render3DAlbum = (projectName) => {
 		() => document.body.classList.toggle('disabled'),
 	);
 };
-
-render3DAlbum('boris_amplifier-worship');
