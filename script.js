@@ -134,7 +134,7 @@ const setupRotationControls = () => {
 	};
 };
 
-export const initializye3DViewer = (projectName) => {
+export const initialize3DViewer = (projectName) => {
 	setup3DLayers(projectName);
 	setupRotationControls();
 };
