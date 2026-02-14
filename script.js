@@ -79,7 +79,6 @@ const setupRotationControls = () => {
 
 	let pointerDownPosition = null;
 	let willTriggerClick = true;
-	let animationFrameId = null;
 
 	document.addEventListener('pointerdown', (event) => {
 		pointerDownPosition = { x: event.clientX, y: event.clientY };
@@ -100,15 +99,9 @@ const setupRotationControls = () => {
 			willTriggerClick = false;
 		}
 
-		if (animationFrameId) return;
-
-		animationFrameId = requestAnimationFrame(() => {
-			const rotateX = -distanceToRotation(distanceY);
-			const rotateY = distanceToRotation(distanceX);
-			document.body.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
-
-			animationFrameId = null;
-		});
+		const rotateX = -distanceToRotation(distanceY);
+		const rotateY = distanceToRotation(distanceX);
+		document.body.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
 	});
 
 	document.addEventListener('pointerup', () => {
