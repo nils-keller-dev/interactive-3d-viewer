@@ -92,7 +92,7 @@ document.addEventListener('pointermove', (event) => {
 	distanceX = event.clientX - pointerDownPosition?.x;
 	distanceY = event.clientY - pointerDownPosition?.y;
 
-	if (willTriggerClick && calculateDistance(distanceX, distanceY) > 10) {
+	if (willTriggerClick && exceedsThreshold(10, distanceX, distanceY)) {
 		willTriggerClick = false;
 	}
 
@@ -122,8 +122,8 @@ document.addEventListener('pointerup', () => {
 	isPointerDown = false;
 });
 
-const calculateDistance = (distanceX, distanceY) =>
-	Math.sqrt(Math.pow(distanceX, 2) + Math.pow(distanceY, 2));
+const exceedsThreshold = (threshold, distanceX, distanceY) =>
+	Math.abs(distanceX) > threshold || Math.abs(distanceY) > threshold;
 
 const distanceToRotation = (distance) =>
 	Math.atan(distance / 400) * (180 / Math.PI);
