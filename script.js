@@ -69,10 +69,6 @@ export const render3DAlbum = (projectName) => {
 			el.appendChild(shadowEl);
 		}),
 	);
-
-	// document.addEventListener('click', () =>
-	// 	document.body.classList.toggle('disabled'),
-	// );
 };
 
 let isPointerDown = false;
@@ -84,21 +80,34 @@ document.addEventListener('pointerdown', (event) => {
 
 	isPointerDown = true;
 	hasPointerMoved = false;
-	console.log('pointerdown', event);
+	updateDebug();
 });
 
-document.addEventListener('pointermove', (event) => {
+document.addEventListener('pointermove', () => {
 	if (!isPointerDown) return;
 	hasPointerMoved = true;
-	console.log('pointermove', event);
+	updateDebug();
 });
 
-document.addEventListener('pointerup', (event) => {
+document.addEventListener('pointerup', () => {
 	if (!hasPointerMoved) {
 		document.body.classList.toggle('disabled');
 	}
 
-	console.log('pointerup', hasPointerMoved, hasClickedOnBody, event);
 	isPointerDown = false;
 	hasPointerMoved = false;
+	updateDebug();
 });
+
+const updateDebug = () => {
+	const debugEl = document.getElementById('debug');
+	if (debugEl) {
+		debugEl.innerHTML = `
+			isPointerDown: ${isPointerDown}<br>
+			hasPointerMoved: ${hasPointerMoved}<br>
+			hasClickedOnBody: ${hasClickedOnBody}<br>
+		`;
+	}
+};
+
+updateDebug();
