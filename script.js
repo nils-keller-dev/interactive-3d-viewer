@@ -103,11 +103,11 @@ document.addEventListener('pointerup', () => {
 
 logState();
 
-function logState() {
+function logState(args) {
 	updateDebug({
 		isPointerDown,
 		hasPointerMoved,
-		hasClickedOnBody,
 		pointerDownPosition,
+		...args,
 	});
 }
