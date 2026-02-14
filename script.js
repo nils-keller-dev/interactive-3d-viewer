@@ -70,7 +70,35 @@ export const render3DAlbum = (projectName) => {
 		}),
 	);
 
-	document.addEventListener('click', () =>
-		document.body.classList.toggle('disabled'),
-	);
+	// document.addEventListener('click', () =>
+	// 	document.body.classList.toggle('disabled'),
+	// );
 };
+
+let isPointerDown = false;
+let hasPointerMoved = false;
+let hasClickedOnBody = false;
+
+document.addEventListener('pointerdown', (event) => {
+	hasClickedOnBody = !!event.target.closest('body');
+
+	isPointerDown = true;
+	hasPointerMoved = false;
+	console.log('pointerdown', event);
+});
+
+document.addEventListener('pointermove', (event) => {
+	if (!isPointerDown) return;
+	hasPointerMoved = true;
+	console.log('pointermove', event);
+});
+
+document.addEventListener('pointerup', (event) => {
+	if (!hasPointerMoved) {
+		document.body.classList.toggle('disabled');
+	}
+
+	console.log('pointerup', hasPointerMoved, hasClickedOnBody, event);
+	isPointerDown = false;
+	hasPointerMoved = false;
+});

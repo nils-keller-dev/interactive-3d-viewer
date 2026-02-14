@@ -19,7 +19,7 @@ body {
 	color: transparent;
 	transform-style: preserve-3d;
 	transition: transform 0.5s ease;
-	animation: move 10s infinite;
+	/* animation: move 10s infinite; */
 }
 
 div {
@@ -55,7 +55,7 @@ body.disabled .shadow {
 	--blur: 0 !important;
 }
 
-@keyframes move {
+/* @keyframes move {
 	0% {
 		transform: rotateY(-20deg) rotateX(-5deg);
 	}
@@ -71,4 +71,4 @@ body.disabled .shadow {
 	100% {
 		transform: rotateY(-20deg) rotateX(-5deg);
 	}
-}
+} */
