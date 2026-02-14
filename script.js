@@ -1,5 +1,3 @@
-import { updateDebug } from './debug.js';
-
 export const render3DAlbum = (projectName) => {
 	const BASE_URL =
 		'https://cdn.jsdelivr.net/gh/nils-keller-dev/cdn-resources@latest/images/';
@@ -86,7 +84,6 @@ document.addEventListener('pointerdown', (event) => {
 	document.documentElement.style.setProperty('--cursor', 'grabbing');
 
 	isPointerDown = true;
-	logState();
 });
 
 document.addEventListener('pointermove', (event) => {
@@ -112,8 +109,6 @@ document.addEventListener('pointermove', (event) => {
 			animationFrameId = null;
 		});
 	}
-
-	logState({ distanceX, distanceY });
 });
 
 document.addEventListener('pointerup', () => {
@@ -129,7 +124,6 @@ document.addEventListener('pointerup', () => {
 	distanceX = 0;
 	distanceY = 0;
 	isPointerDown = false;
-	logState();
 });
 
 const calculateDistance = (distanceX, distanceY) =>
@@ -144,13 +138,3 @@ const resetView = () => {
 	document.body.style.removeProperty('--rotate-y');
 	document.documentElement.style.removeProperty('--cursor');
 };
-
-logState();
-
-function logState(args) {
-	updateDebug({
-		isPointerDown,
-		pointerDownPosition,
-		...args,
-	});
-}
