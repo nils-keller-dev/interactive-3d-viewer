@@ -92,20 +92,16 @@ document.addEventListener('pointermove', (event) => {
 	distanceX = event.clientX - pointerDownPosition?.x;
 	distanceY = event.clientY - pointerDownPosition?.y;
 
-	if (calculateDistance(distanceX, distanceY) > 10) {
+	if (willTriggerClick && calculateDistance(distanceX, distanceY) > 10) {
 		willTriggerClick = false;
 	}
 
 	if (!animationFrameId) {
 		animationFrameId = requestAnimationFrame(() => {
-			document.body.style.setProperty(
-				'--rotate-x',
-				`${-distanceToRotation(distanceY)}deg`,
-			);
-			document.body.style.setProperty(
-				'--rotate-y',
-				`${distanceToRotation(distanceX)}deg`,
-			);
+			const rotateX = -distanceToRotation(distanceY);
+			const rotateY = distanceToRotation(distanceX);
+			document.body.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
+
 			animationFrameId = null;
 		});
 	}
@@ -134,7 +130,6 @@ const distanceToRotation = (distance) =>
 
 const resetView = () => {
 	document.body.style.removeProperty('--transition-duration');
-	document.body.style.removeProperty('--rotate-x');
-	document.body.style.removeProperty('--rotate-y');
+	document.body.style.removeProperty('transform');
 	document.documentElement.style.removeProperty('--cursor');
 };

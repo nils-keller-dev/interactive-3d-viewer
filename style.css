@@ -21,7 +21,6 @@ body {
 	color: transparent;
 	transform-style: preserve-3d;
 	transition: transform var(--transition-duration, 0.5s) ease;
-	transform: rotateY(var(--rotate-y, 0)) rotateX(var(--rotate-x, 0));
 }
 
 div {
