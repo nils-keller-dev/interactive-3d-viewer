@@ -73,28 +73,29 @@ export const render3DAlbum = (projectName) => {
 	);
 };
 
-let isPointerDown = false;
-let pointerDownPosition = undefined;
+const ROTATION_SCALE = 400;
+const CLICK_THRESHOLD = 10;
+
+let pointerDownPosition = null;
 let willTriggerClick = true;
-let distanceX = 0;
-let distanceY = 0;
 let animationFrameId = null;
 
 document.addEventListener('pointerdown', (event) => {
 	pointerDownPosition = { x: event.clientX, y: event.clientY };
 	document.body.style.setProperty('--transition-duration', 0);
 	document.documentElement.style.setProperty('--cursor', 'grabbing');
-
-	isPointerDown = true;
 });
 
 document.addEventListener('pointermove', (event) => {
-	if (!isPointerDown) return;
+	if (!pointerDownPosition) return;
 
-	distanceX = event.clientX - pointerDownPosition?.x;
-	distanceY = event.clientY - pointerDownPosition?.y;
+	const distanceX = event.clientX - pointerDownPosition.x;
+	const distanceY = event.clientY - pointerDownPosition.y;
 
-	if (willTriggerClick && exceedsThreshold(10, distanceX, distanceY)) {
+	if (
+		willTriggerClick &&
+		(exceedsThreshold(distanceX) || exceedsThreshold(distanceY))
+	) {
 		willTriggerClick = false;
 	}
 
@@ -110,25 +111,20 @@ document.addEventListener('pointermove', (event) => {
 });
 
 document.addEventListener('pointerup', () => {
-	pointerDownPosition = undefined;
-
 	resetView();
 
 	if (willTriggerClick) {
 		document.body.classList.toggle('disabled');
 	}
 
+	pointerDownPosition = null;
 	willTriggerClick = true;
-	distanceX = 0;
-	distanceY = 0;
-	isPointerDown = false;
 });
 
-const exceedsThreshold = (threshold, distanceX, distanceY) =>
-	Math.abs(distanceX) > threshold || Math.abs(distanceY) > threshold;
+const exceedsThreshold = (distance) => Math.abs(distance) > CLICK_THRESHOLD;
 
 const distanceToRotation = (distance) =>
-	Math.atan(distance / 400) * (180 / Math.PI);
+	Math.atan(distance / ROTATION_SCALE) * (180 / Math.PI);
 
 const resetView = () => {
 	document.body.style.removeProperty('--transition-duration');
