@@ -78,6 +78,7 @@ let pointerDownPosition = undefined;
 let willTriggerClick = true;
 let distanceX = 0;
 let distanceY = 0;
+let animationFrameId = null;
 
 document.addEventListener('pointerdown', (event) => {
 	pointerDownPosition = { x: event.clientX, y: event.clientY };
@@ -94,17 +95,22 @@ document.addEventListener('pointermove', (event) => {
 	distanceX = event.clientX - pointerDownPosition?.x;
 	distanceY = event.clientY - pointerDownPosition?.y;
 
-	document.body.style.setProperty(
-		'--rotate-x',
-		`${-distanceToRotation(distanceY)}deg`,
-	);
-	document.body.style.setProperty(
-		'--rotate-y',
-		`${distanceToRotation(distanceX)}deg`,
-	);
-
 	if (calculateDistance(distanceX, distanceY) > 10) {
 		willTriggerClick = false;
+	}
+
+	if (!animationFrameId) {
+		animationFrameId = requestAnimationFrame(() => {
+			document.body.style.setProperty(
+				'--rotate-x',
+				`${-distanceToRotation(distanceY)}deg`,
+			);
+			document.body.style.setProperty(
+				'--rotate-y',
+				`${distanceToRotation(distanceX)}deg`,
+			);
+			animationFrameId = null;
+		});
 	}
 
 	logState({ distanceX, distanceY });
