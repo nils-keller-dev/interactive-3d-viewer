@@ -75,23 +75,23 @@ export const render3DAlbum = (projectName) => {
 
 let isPointerDown = false;
 let pointerDownPosition = undefined;
-let hasPointerMoved = false;
+let willTriggerClick = true;
+let distanceX = 0;
+let distanceY = 0;
 
 document.addEventListener('pointerdown', (event) => {
 	pointerDownPosition = { x: event.clientX, y: event.clientY };
 	document.body.style.setProperty('--transition-duration', 0);
 
 	isPointerDown = true;
-	hasPointerMoved = false;
 	logState();
 });
 
 document.addEventListener('pointermove', (event) => {
 	if (!isPointerDown) return;
-	hasPointerMoved = true;
 
-	const distanceX = event.clientX - pointerDownPosition?.x;
-	const distanceY = event.clientY - pointerDownPosition?.y;
+	distanceX = event.clientX - pointerDownPosition?.x;
+	distanceY = event.clientY - pointerDownPosition?.y;
 
 	document.body.style.setProperty(
 		'--rotate-x',
@@ -102,22 +102,31 @@ document.addEventListener('pointermove', (event) => {
 		`${distanceToRotation(distanceX)}deg`,
 	);
 
+	if (calculateDistance(distanceX, distanceY) > 10) {
+		willTriggerClick = false;
+	}
+
 	logState({ distanceX, distanceY });
 });
 
 document.addEventListener('pointerup', () => {
 	pointerDownPosition = undefined;
 
-	if (!hasPointerMoved) {
+	resetView();
+
+	if (willTriggerClick) {
 		document.body.classList.toggle('disabled');
 	}
 
-	resetView();
-
+	willTriggerClick = true;
+	distanceX = 0;
+	distanceY = 0;
 	isPointerDown = false;
-	hasPointerMoved = false;
 	logState();
 });
+
+const calculateDistance = (distanceX, distanceY) =>
+	Math.sqrt(Math.pow(distanceX, 2) + Math.pow(distanceY, 2));
 
 const distanceToRotation = (distance) =>
 	Math.atan(distance / 400) * (180 / Math.PI);
@@ -133,7 +142,6 @@ logState();
 function logState(args) {
 	updateDebug({
 		isPointerDown,
-		hasPointerMoved,
 		pointerDownPosition,
 		...args,
 	});
