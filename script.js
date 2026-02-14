@@ -65,7 +65,9 @@ export const render3DAlbum = (projectName) => {
 
 			const shadowEl = shadowTemplate.cloneNode();
 			shadowEl.style.backgroundImage = generateImageUrl(shadow.name);
-			shadowEl.style.setProperty('--blur', `${(shadow.depth - depth) / 10}em`);
+			const depthDifference = shadow.depth - depth;
+			shadowEl.style.setProperty('--blur', `${depthDifference / 10}em`);
+			shadowEl.style.setProperty('--shadow-offset', `${depthDifference / 3}em`);
 			el.appendChild(shadowEl);
 		}),
 	);

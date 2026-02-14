@@ -50,8 +50,11 @@ body.disabled > div {
 	opacity: 0.4;
 	filter: blur(var(--blur)) brightness(0) !important;
 	mask-image: var(--image);
+	mask-position: calc(-1 * var(--shadow-offset)) calc(-1 * var(--shadow-offset));
+	transform: translate(var(--shadow-offset), var(--shadow-offset));
 }
 
 body.disabled .shadow {
 	--blur: 0 !important;
+	--shadow-offset: 0 !important;
 }
