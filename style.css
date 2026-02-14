@@ -7,7 +7,8 @@ html {
 	justify-content: center;
 	perspective: 100em;
 	user-select: none;
-	cursor: pointer;
+	cursor: var(--cursor, grab);
+	overflow: hidden;
 	-webkit-tap-highlight-color: transparent;
 }
 

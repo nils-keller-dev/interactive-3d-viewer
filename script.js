@@ -82,6 +82,7 @@ let distanceY = 0;
 document.addEventListener('pointerdown', (event) => {
 	pointerDownPosition = { x: event.clientX, y: event.clientY };
 	document.body.style.setProperty('--transition-duration', 0);
+	document.documentElement.style.setProperty('--cursor', 'grabbing');
 
 	isPointerDown = true;
 	logState();
@@ -135,6 +136,7 @@ const resetView = () => {
 	document.body.style.removeProperty('--transition-duration');
 	document.body.style.removeProperty('--rotate-x');
 	document.body.style.removeProperty('--rotate-y');
+	document.documentElement.style.removeProperty('--cursor');
 };
 
 logState();
