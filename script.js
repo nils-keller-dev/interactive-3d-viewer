@@ -1,3 +1,5 @@
+import { updateDebug } from './debug.js';
+
 export const render3DAlbum = (projectName) => {
 	const BASE_URL =
 		'https://cdn.jsdelivr.net/gh/nils-keller-dev/cdn-resources@latest/images/';
@@ -80,13 +82,13 @@ document.addEventListener('pointerdown', (event) => {
 
 	isPointerDown = true;
 	hasPointerMoved = false;
-	updateDebug();
+	logState();
 });
 
 document.addEventListener('pointermove', () => {
 	if (!isPointerDown) return;
 	hasPointerMoved = true;
-	updateDebug();
+	logState();
 });
 
 document.addEventListener('pointerup', () => {
@@ -96,15 +98,16 @@ document.addEventListener('pointerup', () => {
 
 	isPointerDown = false;
 	hasPointerMoved = false;
-	updateDebug();
+	logState();
 });
 
-const updateDebug = () => {
-	console.clear();
-	console.log('isPointerDown:', isPointerDown);
-	console.log('hasPointerMoved:', hasPointerMoved);
-	console.log('hasClickedOnBody:', hasClickedOnBody);
-	console.log('pointerDownPosition:', pointerDownPosition);
-};
+logState();
 
-updateDebug();
+function logState() {
+	updateDebug({
+		isPointerDown,
+		hasPointerMoved,
+		hasClickedOnBody,
+		pointerDownPosition,
+	});
+}
