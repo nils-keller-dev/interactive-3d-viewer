@@ -100,14 +100,11 @@ document.addEventListener('pointerup', () => {
 });
 
 const updateDebug = () => {
-	const debugEl = document.getElementById('debug');
-	if (debugEl) {
-		debugEl.innerHTML = `
-			isPointerDown: ${isPointerDown}<br>
-			hasPointerMoved: ${hasPointerMoved}<br>
-			hasClickedOnBody: ${hasClickedOnBody}<br>
-		`;
-	}
+	console.clear();
+	console.log('isPointerDown:', isPointerDown);
+	console.log('hasPointerMoved:', hasPointerMoved);
+	console.log('hasClickedOnBody:', hasClickedOnBody);
+	console.log('pointerDownPosition:', pointerDownPosition);
 };
 
 updateDebug();
