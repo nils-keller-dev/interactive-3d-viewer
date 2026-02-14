@@ -1,4 +1,4 @@
-export const render3DAlbum = (projectName) => {
+const setup3DLayers = (projectName) => {
 	const BASE_URL =
 		'https://cdn.jsdelivr.net/gh/nils-keller-dev/cdn-resources@latest/images/';
 
@@ -73,33 +73,35 @@ export const render3DAlbum = (projectName) => {
 	);
 };
 
-const ROTATION_SCALE = 400;
-const CLICK_THRESHOLD = 10;
+const setupRotationControls = () => {
+	const ROTATION_SCALE = 400;
+	const CLICK_THRESHOLD = 10;
 
-let pointerDownPosition = null;
-let willTriggerClick = true;
-let animationFrameId = null;
+	let pointerDownPosition = null;
+	let willTriggerClick = true;
+	let animationFrameId = null;
 
-document.addEventListener('pointerdown', (event) => {
-	pointerDownPosition = { x: event.clientX, y: event.clientY };
-	document.body.style.setProperty('--transition-duration', 0);
-	document.documentElement.style.setProperty('--cursor', 'grabbing');
-});
+	document.addEventListener('pointerdown', (event) => {
+		pointerDownPosition = { x: event.clientX, y: event.clientY };
+		document.body.style.setProperty('--transition-duration', 0);
+		document.documentElement.style.setProperty('--cursor', 'grabbing');
+	});
 
-document.addEventListener('pointermove', (event) => {
-	if (!pointerDownPosition) return;
+	document.addEventListener('pointermove', (event) => {
+		if (!pointerDownPosition) return;
 
-	const distanceX = event.clientX - pointerDownPosition.x;
-	const distanceY = event.clientY - pointerDownPosition.y;
+		const distanceX = event.clientX - pointerDownPosition.x;
+		const distanceY = event.clientY - pointerDownPosition.y;
 
-	if (
-		willTriggerClick &&
-		(exceedsThreshold(distanceX) || exceedsThreshold(distanceY))
-	) {
-		willTriggerClick = false;
-	}
+		if (
+			willTriggerClick &&
+			(exceedsThreshold(distanceX) || exceedsThreshold(distanceY))
+		) {
+			willTriggerClick = false;
+		}
 
-	if (!animationFrameId) {
+		if (animationFrameId) return;
+
 		animationFrameId = requestAnimationFrame(() => {
 			const rotateX = -distanceToRotation(distanceY);
 			const rotateY = distanceToRotation(distanceX);
@@ -107,27 +109,32 @@ document.addEventListener('pointermove', (event) => {
 
 			animationFrameId = null;
 		});
-	}
-});
+	});
 
-document.addEventListener('pointerup', () => {
-	resetView();
+	document.addEventListener('pointerup', () => {
+		resetView();
 
-	if (willTriggerClick) {
-		document.body.classList.toggle('disabled');
-	}
+		if (willTriggerClick) {
+			document.body.classList.toggle('disabled');
+		}
 
-	pointerDownPosition = null;
-	willTriggerClick = true;
-});
+		pointerDownPosition = null;
+		willTriggerClick = true;
+	});
 
-const exceedsThreshold = (distance) => Math.abs(distance) > CLICK_THRESHOLD;
+	const exceedsThreshold = (distance) => Math.abs(distance) > CLICK_THRESHOLD;
 
-const distanceToRotation = (distance) =>
-	Math.atan(distance / ROTATION_SCALE) * (180 / Math.PI);
+	const distanceToRotation = (distance) =>
+		Math.atan(distance / ROTATION_SCALE) * (180 / Math.PI);
 
-const resetView = () => {
-	document.body.style.removeProperty('--transition-duration');
-	document.body.style.removeProperty('transform');
-	document.documentElement.style.removeProperty('--cursor');
+	const resetView = () => {
+		document.body.style.removeProperty('--transition-duration');
+		document.body.style.removeProperty('transform');
+		document.documentElement.style.removeProperty('--cursor');
+	};
+};
+
+export const initializye3DViewer = (projectName) => {
+	setup3DLayers(projectName);
+	setupRotationControls();
 };
