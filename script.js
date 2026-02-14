@@ -74,32 +74,59 @@ export const render3DAlbum = (projectName) => {
 };
 
 let isPointerDown = false;
+let pointerDownPosition = undefined;
 let hasPointerMoved = false;
-let hasClickedOnBody = false;
 
 document.addEventListener('pointerdown', (event) => {
-	hasClickedOnBody = !!event.target.closest('body');
+	pointerDownPosition = { x: event.clientX, y: event.clientY };
+	document.body.style.setProperty('--transition-duration', 0);
 
 	isPointerDown = true;
 	hasPointerMoved = false;
 	logState();
 });
 
-document.addEventListener('pointermove', () => {
+document.addEventListener('pointermove', (event) => {
 	if (!isPointerDown) return;
 	hasPointerMoved = true;
-	logState();
+
+	const distanceX = event.clientX - pointerDownPosition?.x;
+	const distanceY = event.clientY - pointerDownPosition?.y;
+
+	document.body.style.setProperty(
+		'--rotate-x',
+		`${-distanceToRotation(distanceY)}deg`,
+	);
+	document.body.style.setProperty(
+		'--rotate-y',
+		`${distanceToRotation(distanceX)}deg`,
+	);
+
+	logState({ distanceX, distanceY });
 });
 
 document.addEventListener('pointerup', () => {
+	pointerDownPosition = undefined;
+
 	if (!hasPointerMoved) {
 		document.body.classList.toggle('disabled');
 	}
+
+	resetView();
 
 	isPointerDown = false;
 	hasPointerMoved = false;
 	logState();
 });
+
+const distanceToRotation = (distance) =>
+	Math.atan(distance / 400) * (180 / Math.PI);
+
+const resetView = () => {
+	document.body.style.removeProperty('--transition-duration');
+	document.body.style.removeProperty('--rotate-x');
+	document.body.style.removeProperty('--rotate-y');
+};
 
 logState();
 
