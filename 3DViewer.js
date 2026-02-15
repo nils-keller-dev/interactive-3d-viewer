@@ -1,6 +1,6 @@
 const setup3DLayers = (projectName) => {
 	const BASE_URL =
-		'https://cdn.jsdelivr.net/gh/nils-keller-dev/cdn-resources@latest/images/';
+		'https://cdn.jsdelivr.net/gh/nils-keller-dev/cdn-resources@main/images/';
 
 	const generateImageUrl = (name) =>
 		`url(${BASE_URL}${projectName}/${name}.webp)`;
