@@ -14,8 +14,6 @@ html {
 }
 
 body {
-	width: 75em;
-	aspect-ratio: 1;
 	margin: 0;
 	position: relative;
 	color: transparent;
@@ -57,4 +55,11 @@ body.disabled > div {
 body.disabled .shadow {
 	--blur: 0 !important;
 	--shadow-offset: 0 !important;
+}
+
+img {
+	visibility: hidden;
+	max-height: 75em;
+	max-width: 75em;
+	display: block;
 }

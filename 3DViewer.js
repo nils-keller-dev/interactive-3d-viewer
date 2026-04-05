@@ -2,8 +2,9 @@ const setup3DLayers = (projectName) => {
 	const BASE_URL =
 		'https://cdn.jsdelivr.net/gh/nils-keller-dev/cdn-resources@main/images/';
 
-	const generateImageUrl = (name) =>
-		`url(${BASE_URL}${projectName}/${name}.webp)`;
+	const generateImageUrl = (path) => `url(${generateImagePath(path)})`;
+
+	const generateImagePath = (name) => `${BASE_URL}${projectName}/${name}.webp`;
 
 	const getShadow = (childIndex, parentIndex, parentImage) => {
 		if (!parentImage.classes.length) return parentIndex;
@@ -28,11 +29,10 @@ const setup3DLayers = (projectName) => {
 	const shadowTemplate = document.createElement('div');
 	shadowTemplate.classList.add('shadow');
 
+	const divs = [...document.querySelectorAll('div')].reverse();
 	const images = [];
 
-	for (const [currentIndex, el] of [...document.querySelectorAll('div')]
-		.reverse()
-		.entries()) {
+	for (const [currentIndex, el] of divs.entries()) {
 		const depth = Number(el.innerText);
 
 		el.style.setProperty('--image', generateImageUrl(el.id));
@@ -71,6 +71,8 @@ const setup3DLayers = (projectName) => {
 			el.appendChild(shadowEl);
 		}),
 	);
+
+	attachSizingImage(generateImagePath(divs.at(0).id));
 };
 
 const setupRotationControls = () => {
@@ -125,6 +127,12 @@ const setupRotationControls = () => {
 		document.body.style.removeProperty('transform');
 		document.documentElement.style.removeProperty('--cursor');
 	};
+};
+
+const attachSizingImage = (imagePath) => {
+	const image = document.createElement('img');
+	image.src = imagePath;
+	document.body.appendChild(image);
 };
 
 export const initialize3DViewer = (projectName) => {
